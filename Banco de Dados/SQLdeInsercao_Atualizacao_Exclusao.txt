@@ -1,0 +1,50 @@
+--SQL de inserção de dados nas tabelas
+insert into unidadefederativa (codigouf,nomeuf) values 
+('RJ','Rio de Janeiro'), 
+('SP','São Paulo'), 
+('MG','Minas Gerais'),
+('RS','Rio Grande do Sul'),
+('BA','Bahia');
+
+insert into cidades (nomecidade) values ('Seropedica'), ('Teresópolis'), ('Limeira'), ('Diadema'), ('Petropolis');
+
+insert into categoria (nomecategoria, descricaocategoria) values  
+('Camisa', 'Peça de vestuário de mangas longas ou curtas que cobre o tronco de uma pessoa'), 
+('Calca', 'Peça de vestuário que cobre as pernas totalmente'), 
+('Casaco', 'Peça de vestuário de mangas compridas'),
+('Bermuda', 'Peça de vestuário que cobre da cintura ao joelho'),
+('Sapato', 'Peça de vestuário que tem a finalidade de proteger os pés ');
+
+insert into funcionario (nomefuncionario, cpffuncionario) values 
+('Pedro', '12345678901'), 
+('Marcos', '12345678902'), 
+('Lucas', '12345678903'), 
+('Joao', '12345678904'), 
+('Alan', '12345678905');
+
+insert into cliente (nomecliente, emailcliente, nomedeusuariocliente, cpfcliente, datadenascimentocliente, rua, numero, bairro, codigocidade, cep, codigouf, telefone) values 
+('Eduardo', 'eduardo@gmail.com', 'eduardo123', '09876543210', '1990-01-01', 'Rua Mal', 10, 'Quitandinha', 1, '25698012', 'RJ','21992784433'), 
+('Maria', 'maria@gmail.com', 'maria 123', '19876543210', '1991-01-02', 'Rua Tal', 11, 'Bingen', 2, '25479036', 'BA','7122348856'), 
+('Almir', 'almir@gmail.com', 'almir123', '29876543210', '1992-01-03', 'Rua Lima', 12, 'Itaipava', 3, '25456023', 'SP','11967851111'), 
+('Jose', 'jose@gmail.com', 'jose123', '39876543210', '1993-01-04', 'Rua Liber', 13, 'Cascatinha', 4, '25647056', 'MG','32983443390'),
+('Jorge da Silva', 'jorgin123@hotmail.com', 'jorginho26','54621496374', '1995-04-17', 'Rua Aragao Pastel', 26, 'Mosela', 5, '25645115', 'RJ','2422485674');
+
+Insert Into produto (nomeproduto, descricaoproduto, datadefabricacao , valorunitario, codigocategoria,  codigofuncionario, quantidadeemestoque) Values 
+( 'Blusa ', 'Blusa, em poliéster com elastano.', '2019-10-25', 80.00 ,1, 5,30), 
+('Casaco Ripcurl','Casaco estilo militar.', '2020-12-06', 40.00, 3 ,3,10), 
+('Calça Nike moletom', 'Calça, em moletom com elastano.', '2020-04-05' ,100.00, 2 ,2,40), 
+('Regata', 'Regata, em poliéster com elastano.','2020-04-17' , 60.00, 1, 5, 20), 
+('Nike AirJordan', 'Tênis de basquete.', '2019-10-25', 480.00, 5, 3,5);
+
+insert into pedido (codigocliente) values (1),(4),(2),(4),(5);
+
+insert into pedido_rel_produto (codigopedido,codigoproduto,quantidadepedidadoproduto) values
+(1,5,2),(2,1,2),(3,3,1),(4,1,5),(5,4,1),(5,2,1);
+
+--Query de atualização de registro
+
+update produto set nomeproduto ='Blusa King James' where codigoproduto = 1;
+
+--Query de exclusão de registro
+
+delete from funcionario where codigofuncionario = 1;

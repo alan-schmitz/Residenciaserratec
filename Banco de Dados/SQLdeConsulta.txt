@@ -1,0 +1,102 @@
+--Query que devolve o número do pedido, a data e qual usuário fez o pedido 
+
+select pedido.codigopedido,
+		pedido.datadopedido,
+		cliente.nomedeusuariocliente
+from pedido
+inner join cliente
+	on pedido.codigocliente = cliente.codigocliente;
+
+################################################################
+
+--Query retorna quais produtos cada cliente já comprou
+
+select 
+		cliente.nomecliente,
+		produto.nomeproduto 
+from pedido
+inner join cliente
+	on pedido.codigocliente = cliente.codigocliente
+inner join pedido_rel_produto
+	on pedido.codigopedido = pedido_rel_produto.codigopedido 
+inner join produto 
+	on pedido_rel_produto.codigoproduto = produto.codigoproduto
+group by nomeproduto,
+		nomecliente 
+order by nomecliente,
+		nomeproduto
+
+#############################################################################
+--Query retorna a quantidade de produtos registrados por categoria
+
+select 	
+		categoria.nomecategoria , count(*) as total_de_modelos_por_categoria
+from produto
+inner join categoria 
+	on categoria.codigocategoria = produto.codigocategoria 
+group by nomecategoria;
+
+#############################################################################
+
+--Query retorna a quantidade de pedidos feitos por cliente
+
+select 	
+		cliente.nomecliente , count(*) as total_de_pedidos_feitos_por_cliente
+from pedido
+inner join cliente 
+	on pedido.codigocliente = cliente.codigocliente 
+group by cliente.codigocliente; 
+
+########################################
+--NOTA FISCAL
+
+--Query para retornar as infos do cliente para realizar a nota fiscal
+select 
+		cliente.nomecliente as "Destiatario",
+		cliente.cpfcliente as "CPF do destinatario",
+		cliente.rua as "Rua",
+		cliente.numero as "Número",
+		cliente.bairro as "Bairro",
+		cidades.nomecidade as "Cidade",
+		cliente.cep as "CEP",
+		cliente.codigouf as "UF",
+		cliente.telefone as "Telefone",
+		now() as data_de_emissao 
+from pedido
+inner join cliente
+	on pedido.codigocliente = cliente.codigocliente
+  inner join cidades
+	on cliente.codigocidade = cidades.codigocidade
+where pedido.codigopedido = 5
+group by cliente.codigocliente, cidades.nomecidade;
+
+--Query para retornar as informações dos produtos comprados
+
+select 
+		produto.codigoproduto as "Código do produto",
+		produto.nomeproduto as "Descriçao do produto",
+		pedido_rel_produto.quantidadepedidadoproduto as "Quantidade",
+		produto.valorunitario as "Valo unitário",
+		produto.valorunitario * pedido_rel_produto.quantidadepedidadoproduto as Valor_Total
+from pedido
+inner join pedido_rel_produto
+	on pedido.codigopedido = pedido_rel_produto.codigopedido 
+inner join produto 
+	on pedido_rel_produto.codigoproduto = produto.codigoproduto
+where pedido.codigopedido = 5;
+
+--Query para retorar o valor total da nota fiscal
+
+select 		
+		sum(produto.valorunitario * pedido_rel_produto.quantidadepedidadoproduto)  as Valor_Total
+from pedido
+inner join cliente
+	on pedido.codigocliente = cliente.codigocliente
+inner join pedido_rel_produto
+	on pedido.codigopedido = pedido_rel_produto.codigopedido 
+inner join produto 
+	on pedido_rel_produto.codigoproduto = produto.codigoproduto
+inner join unidadefederativa
+	on cliente.codigouf = unidadefederativa.codigouf 
+where pedido.codigopedido = 5
+		
